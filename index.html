@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Photo Studio Pro - Complete Suite</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #7c3aed;
+  --primary-light: #a78bfa;
+  --primary-dark: #4f39f5;
+  --secondary: #0891b2;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --dark: #0b0b12;
+  --darker: #1a1a2e;
+  --light: #e0e7ff;
+  --gray: #888;
+}
+
+body {
+  background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 50%, #0f3460 100%);
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+}
+
+/* Navigation */
+nav {
+  background: linear-gradient(135deg, rgba(20, 20, 30, 0.95), rgba(30, 30, 50, 0.95));
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+nav .logo {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+nav .nav-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+
+nav .nav-links a {
+  color: #bbb;
+  text-decoration: none;
+  transition: color 0.3s;
+  cursor: pointer;
+}
+
+nav .nav-links a:hover {
+  color: var(--primary);
+}
+
+nav .nav-auth {
+  display: flex;
+  gap: 12px;
+}
+
+/* Header */
+header {
+  padding: 60px 24px;
+  text-align: center;
+  background: linear-gradient(135deg, #4c1d95, #2563eb, #0891b2);
+  background-size: 300% 300%;
+  animation: gradientShift 8s ease infinite;
+  box-shadow: 0 8px 32px rgba(79, 39, 245, 0.3);
+  border-bottom: 2px solid var(--primary);
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  color: var(--light);
+  font-size: 1.1em;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+.features-header {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.badge {
+  background: rgba(255,255,255,0.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 40px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.card {
+  background: linear-gradient(135deg, rgba(23, 23, 39, 0.8), rgba(30, 30, 50, 0.6));
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 18px;
+  padding: 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.1), transparent);
+  transition: all 0.5s;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(124, 58, 237, 0.6);
+  box-shadow: 0 12px 24px rgba(124, 58, 237, 0.2), 0 0 20px rgba(124, 58, 237, 0.1);
+  background: linear-gradient(135deg, rgba(30, 30, 50, 0.9), rgba(40, 40, 60, 0.7));
+}
+
+.card h2 {
+  font-size: 1.5em;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card p {
+  color: #bbb;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.features-list {
+  list-style: none;
+  margin: 12px 0 0 0;
+}
+
+.features-list li {
+  color: #999;
+  font-size: 0.9em;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.features-list li::before {
+  content: '✓';
+  color: var(--primary);
+  font-weight: bold;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  text-align: center;
+  padding: 12px 24px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(124, 58, 237, 0.4);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, var(--secondary), #0891b2);
+  padding: 14px 32px;
+  font-size: 1.1em;
+}
+
+.btn-small {
+  padding: 8px 16px;
+  font-size: 0.9em;
+}
+
+/* CTA Section */
+.cta-section {
+  padding: 60px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(8, 145, 178, 0.1));
+  border-top: 2px solid rgba(124, 58, 237, 0.3);
+  border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+}
+
+.cta-section h2 {
+  font-size: 2em;
+  margin-bottom: 16px;
+}
+
+.cta-section p {
+  color: #bbb;
+  font-size: 1.1em;
+  margin-bottom: 24px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.button-group {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.premium-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75em;
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+/* Upload Section */
+.upload-section {
+  padding: 60px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.upload-container {
+  background: linear-gradient(135deg, rgba(30, 30, 50, 0.8), rgba(40, 40, 60, 0.6));
+  border: 2px dashed rgba(124, 58, 237, 0.5);
+  border-radius: 20px;
+  padding: 60px 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.upload-container:hover {
+  border-color: var(--primary);
+  background: linear-gradient(135deg, rgba(40, 40, 60, 0.9), rgba(50, 50, 70, 0.7));
+}
+
+.upload-icon {
+  font-size: 3em;
+  margin-bottom: 16px;
+}
+
+.upload-text {
+  color: #bbb;
+  margin-bottom: 24px;
+}
+
+.upload-text strong {
+  color: var(--primary);
+}
+
+.file-input {
+  display: none;
+}
+
+#uploadBox {
+  cursor: pointer;
+}
+
+/* Gallery */
+.gallery-section {
+  padding: 40px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(30, 30, 50, 0.6);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  transition: all 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: scale(1.05);
+  border-color: var(--primary);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-item-actions {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 12px;
+}
+
+.gallery-item:hover .gallery-item-actions {
+  opacity: 1;
+}
+
+.gallery-item-actions button {
+  background: var(--primary);
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.gallery-item-actions button:hover {
+  background: var(--primary-light);
+  transform: scale(1.1);
+}
+
+/* Editor */
+.editor-section {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: none;
+}
+
+.editor-section.active {
+  display: block;
+}
+
+.editor-container {
+  background: linear-gradient(135deg, rgba(30, 30, 50, 0.8), rgba(40, 40, 60, 0.6));
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 18px;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+}
+
+.editor-canvas {
+  position: relative;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.editor-canvas img {
+  max-width: 100%;
+  max-height: 600px;
+  display: block;
+  margin: 0 auto;
+}
+
+.editor-tools {
+  background: rgba(20, 20, 30, 0.8);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.tool-group {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+.tool-group:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.tool-label {
+  display: block;
+  font-size: 0.9em;
+  margin-bottom: 8px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.tool-input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.tool-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(124, 58, 237, 0.3);
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  background: var(--primary-light);
+  transform: scale(1.2);
+}
+
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s;
+}
+
+.slider::-moz-range-thumb:hover {
+  background: var(--primary-light);
+  transform: scale(1.2);
+}
+
+.tool-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.tool-buttons .btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 0.9em;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, rgba(30, 30, 50, 0.95), rgba(40, 40, 60, 0.85));
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 18px;
+  padding: 32px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: var(--primary);
+}
+
+.modal-header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+.modal-header h2 {
+  margin: 0;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  font-family: inherit;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Dashboard */
+.dashboard-section {
+  padding: 40px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: none;
+}
+
+.dashboard-section.active {
+  display: block;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, rgba(30, 30, 50, 0.8), rgba(40, 40, 60, 0.6));
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 18px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary);
+}
+
+.stat-card .icon {
+  font-size: 2.5em;
+  margin-bottom: 12px;
+}
+
+.stat-card .value {
+  font-size: 2em;
+  font-weight: bold;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.stat-card .label {
+  color: #bbb;
+  font-size: 0.9em;
+}
+
+.chart-container {
+  background: linear-gradient(135deg, rgba(30, 30, 50, 0.8), rgba(40, 40, 60, 0.6));
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 18px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.chart-title {
+  margin-bottom: 16px;
+  font-size: 1.2em;
+  color: var(--primary);
+}
+
+.simple-chart {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 8px;
+}
+
+.chart-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.bar {
+  width: 60px;
+  background: linear-gradient(180deg, var(--primary), var(--primary-dark));
+  border-radius: 4px 4px 0 0;
+  min-height: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.bar:hover {
+  background: linear-gradient(180deg, var(--primary-light), var(--primary));
+  transform: scaleY(1.1);
+}
+
+.bar-label {
+  font-size: 0.8em;
+  color: #bbb;
+}
+
+.bar-value {
+  font-size: 0.85em;
+  color: var(--primary);
+  font-weight: bold;
+}
+
+/* Footer */
+footer {
+  padding: 40px 20px;
+  text-align: center;
+  color: #888;
+  border-top: 1px solid rgba(124, 58, 237, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+footer a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--primary-light);
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 16px;
+  border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  color: #bbb;
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.tab-button:hover {
+  color: var(--primary);
+}
+
+.tab-button.active {
+  color: var(--primary);
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Notifications */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3);
+  animation: slideIn 0.3s ease;
+  z-index: 2000;
+  max-width: 400px;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.notification.error {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.notification.success {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.notification.warning {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .editor-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8em;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 24px 16px;
+  }
+
+  .features-header {
+    flex-direction: column;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .button-group .btn {
+    width: 100%;
+  }
+
+  nav {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  nav .nav-links {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tabs {
+    flex-direction: column;
+  }
+
+  .modal-content {
+    padding: 24px;
+    width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5em;
+  }
+
+  .card h2 {
+    font-size: 1.2em;
+  }
+
+  .upload-container {
+    padding: 40px 16px;
+  }
+
+  .upload-icon {
+    font-size: 2em;
+  }
+
+  .tool-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  nav .logo {
+    font-size: 1.2em;
+  }
+}
+</style>
+</head>
+<body>
+<!-- Navigation -->
+<nav>
+  <div class="logo">🚀 AI Photo Studio Pro</div>
+  <ul class="nav-links">
+    <li><a onclick="scrollToSection('hero')">Home</a></li>
+    <li><a onclick="showSection('editor')">Editor</a></li>
+    <li><a onclick="showSection('dashboard')">Dashboard</a></li>
+    <li><a href="#">Docs</a></li>
+  </ul>
+  <div class="nav-auth">
+    <button class="btn btn-small" onclick="showModal('loginModal')">Login</button>
+    <button class="btn btn-small btn-secondary" onclick="showModal('signupModal')">Sign Up</button>
+  </div>
+</nav>
+
+<!-- Header -->
+<header id="hero">
+  <h1>🚀 AI Photo Studio Pro</h1>
+  <p class="subtitle">Transformasi Foto Profesional dengan Kekuatan AI Terdepan</p>
+  <div class="features-header">
+    <span class="badge">⚡ Real-time Processing</span>
+    <span class="badge">🔒 Privacy First</span>
+    <span class="badge">🎯 Batch Operations</span>
+    <span class="badge">☁️ Cloud Support</span>
+  </div>
+</header>
+
+<!-- Features Grid -->
+<div class="grid">
+  <div class="card" onclick="showModal('featureModal', 'object-remover')">
+    <h2>🧹 AI Object Remover<span class="premium-badge">Pro</span></h2>
+    <p>Hapus objek yang tidak diinginkan dengan presisi tinggi menggunakan AI terdepan.</p>
+    <ul class="features-list">
+      <li>Smart brush & eraser tool</li>
+      <li>Before/after real-time preview</li>
+      <li>Zoom hingga 400%</li>
+      <li>Undo/Redo unlimited</li>
+    </ul>
+  </div>
+
+  <div class="card" onclick="showModal('featureModal', 'upscaler')">
+    <h2>🔍 AI Upscaler<span class="premium-badge">Pro</span></h2>
+    <p>Tingkatkan kualitas gambar dengan enhancement 2×, 4×, hingga 8× dengan detail sempurna.</p>
+    <ul class="features-list">
+      <li>Upscale 8x resolution</li>
+      <li>AI denoise integration</li>
+      <li>Batch processing 100+ files</li>
+      <li>Quality control slider</li>
+    </ul>
+  </div>
+
+  <div class="card" onclick="showModal('featureModal', 'face-enhance')">
+    <h2>👤 Face Enhance<span class="premium-badge">Pro</span></h2>
+    <p>Perbaiki wajah dengan teknologi face restoration terbaru untuk hasil natural.</p>
+    <ul class="features-list">
+      <li>Auto-detect & enhance wajah</li>
+      <li>Blur removal & sharpening</li>
+      <li>Skin tone adjustment</li>
+      <li>Multiple face support</li>
+    </ul>
+  </div>
+
+  <div class="card" onclick="showModal('featureModal', 'background')">
+    <h2>🎨 Background Studio</h2>
+    <p>Hapus atau ganti background dengan seamless blending technology.</p>
+    <ul class="features-list">
+      <li>AI-powered bg removal</li>
+      <li>Library 500+ backgrounds</li>
+      <li>Custom upload support</li>
+      <li>Edge refining tools</li>
+    </ul>
+  </div>
+
+  <div class="card" onclick="showModal('featureModal', 'costume-swap')">
+    <h2>👗 Costume Swap<span class="premium-badge">Pro</span></h2>
+    <p>Ganti pakaian dan costume dengan realistic hasil menggunakan deep learning.</p>
+    <ul class="features-list">
+      <li>Cosplay transformation</li>
+      <li>Outfit customization</li>
+      <li>Style transfer technology</li>
+      <li>Full body or partial swap</li>
+    </ul>
+  </div>
+
+  <div class="card" onclick="showModal('featureModal', 'prompt-gen')">
+    <h2>✨ Prompt Generator</h2>
+    <p>Buat prompt AI yang optimal untuk menghasilkan karakter dan konten realistis.</p>
+    <ul class="features-list">
+      <li>Smart prompt suggestions</li>
+      <li>Style & theme library</li>
+      <li>Integration dengan DALL-E</li>
+      <li>History & favorites</li>
+    </ul>
+  </div>
+
+  <div class="card" onclick="showModal('featureModal', 'video')">
+    <h2>🎬 Video Enhancement</h2>
+    <p>Tingkatkan kualitas video dengan frame interpolation dan motion enhancement.</p>
+    <ul class="features-list">
+      <li>60fps frame interpolation</li>
+      <li>Motion blur reduction</li>
+      <li>Batch video processing</li>
+      <li>Export multi-format</li>
+    </ul>
+  </div>
+
+  <div class="card" onclick="showModal('featureModal', 'batch')">
+    <h2>🤖 Batch Processor</h2>
+    <p>Proses ratusan gambar sekaligus dengan automation workflow yang powerful.</p>
+    <ul class="features-list">
+      <li>Unlimited batch operations</li>
+      <li>Cloud processing support</li>
+      <li>Schedule batch jobs</li>
+      <li>Progress monitoring</li>
+    </ul>
+  </div>
+
+  <div class="card" onclick="showModal('featureModal', 'analytics')">
+    <h2>📊 Advanced Analytics</h2>
+    <p>Track usage, quality metrics, dan optimization suggestions untuk hasil terbaik.</p>
+    <ul class="features-list">
+      <li>Processing time stats</li>
+      <li>Quality score analysis</li>
+      <li>Performance recommendations</li>
+      <li>Export detailed reports</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Upload Section -->
+<div class="upload-section">
+  <h2 style="text-align: center; margin-bottom: 24px;">📸 Mulai Edit Foto Anda</h2>
+  <div class="upload-container" id="uploadBox">
+    <div class="upload-icon">📁</div>
+    <div class="upload-text">
+      <strong>Klik atau drag file ke sini</strong><br>
+      Mendukung JPG, PNG, WebP (Max 50MB)
+    </div>
+    <input type="file" id="fileInput" class="file-input" accept="image/*" onchange="handleFileUpload(event)">
+  </div>
+</div>
+
+<!-- Gallery Section -->
+<div class="gallery-section">
+  <div class="tabs">
+    <button class="tab-button active" onclick="switchTab('all')">Semua</button>
+    <button class="tab-button" onclick="switchTab('recent')">Terbaru</button>
+    <button class="tab-button" onclick="switchTab('favorites')">Favorit</button>
+  </div>
+
+  <div id="galleryContainer" class="gallery-grid">
+    <p style="text-align: center; color: #999; grid-column: 1 / -1;">Belum ada gambar. Upload gambar terlebih dahulu!</p>
+  </div>
+</div>
+
+<!-- Editor Section -->
+<div class="editor-section" id="editorSection">
+  <h2 style="margin-bottom: 24px; text-align: center;">✏️ Photo Editor</h2>
+  <div class="editor-container">
+    <div class="editor-canvas" id="editorCanvas">
+      <img id="editorImage" src="" alt="Editor Image">
+    </div>
+    <div class="editor-tools">
+      <div class="tool-group">
+        <label class="tool-label">Filters</label>
+        <select class="tool-input" id="filterSelect" onchange="applyFilter(this.value)">
+          <option value="none">No Filter</option>
+          <option value="brightness">Brightness</option>
+          <option value="contrast">Contrast</option>
+          <option value="saturation">Saturation</option>
+          <option value="grayscale">Grayscale</option>
+          <option value="sepia">Sepia</option>
+          <option value="blur">Blur</option>
+        </select>
+      </div>
+
+      <div class="tool-group">
+        <label class="tool-label" id="sliderLabel">Brightness: 100%</label>
+        <input type="range" class="slider" id="adjustSlider" min="0" max="200" value="100" oninput="updateAdjustment()">
+      </div>
+
+      <div class="tool-group">
+        <label class="tool-label">Resize</label>
+        <input type="number" class="tool-input" placeholder="Width (px)" id="widthInput" value="800">
+        <input type="number" class="tool-input" placeholder="Height (px)" id="heightInput" value="600">
+      </div>
+
+      <div class="tool-group">
+        <label class="tool-label">Rotation</label>
+        <button class="btn btn-small" style="width: 48%; margin-right: 2%;" onclick="rotateImage(-90)">↶ -90°</button>
+        <button class="btn btn-small" style="width: 48%;" onclick="rotateImage(90)">↷ +90°</button>
+      </div>
+
+      <div class="tool-buttons">
+        <button class="btn" onclick="resetEditor()">↻ Reset</button>
+        <button class="btn btn-secondary" onclick="downloadImage()">⬇ Download</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Dashboard Section -->
+<div class="dashboard-section" id="dashboardSection">
+  <h2 style="margin-bottom: 24px;">📊 Dashboard Analytics</h2>
+
+  <div class="dashboard-grid">
+    <div class="stat-card">
+      <div class="icon">📸</div>
+      <div class="value" id="totalImages">0</div>
+      <div class="label">Total Images</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon">⏱️</div>
+      <div class="value" id="totalTime">0h</div>
+      <div class="label">Processing Time</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon">⭐</div>
+      <div class="value" id="avgRating">4.8</div>
+      <div class="label">Average Rating</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon">💾</div>
+      <div class="value" id="storageUsed">2.5GB</div>
+      <div class="label">Storage Used</div>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <div class="chart-title">📈 Processing Activity (Last 7 Days)</div>
+    <div class="simple-chart" id="activityChart"></div>
+  </div>
+
+  <div class="chart-container">
+    <div class="chart-title">🔧 Feature Usage</div>
+    <div class="simple-chart" id="featureChart"></div>
+  </div>
+</div>
+
+<!-- CTA Section -->
+<div class="cta-section">
+  <h2>Mulai Transformasi Foto Anda Sekarang</h2>
+  <p>Bergabunglah dengan ribuan pengguna yang telah meningkatkan kualitas foto mereka dengan AI Photo Studio Pro. Nikmati akses penuh ke semua fitur premium.</p>
+  <div class="button-group">
+    <button class="btn btn-secondary" onclick="showModal('signupModal')">🚀 Mulai Studio AI Gratis</button>
+    <button class="btn btn-primary" onclick="showModal('pricingModal')">💎 Lihat Pricing</button>
+  </div>
+
+  <div class="feature-stats" style="margin-top: 40px;">
+    <div class="stat">
+      <div class="stat-value">8×</div>
+      <div class="stat-label">Upscale Quality</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">100+</div>
+      <div class="stat-label">Batch Files</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">99.9%</div>
+      <div class="stat-label">Accuracy</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">24/7</div>
+      <div class="stat-label">Cloud Support</div>
+    </div>
+  </div>
+</div>
+
+<!-- Modals -->
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    <div class="modal-header">
+      <h2>Login</h2>
+    </div>
+    <form onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" required>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" required>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox"> Remember me</label>
+      </div>
+      <button class="btn btn-secondary" style="width: 100%;">Login</button>
+      <p style="text-align: center; margin-top: 16px; color: #bbb;">
+        Belum punya akun? <a href="#" style="color: var(--primary);" onclick="switchModal('loginModal', 'signupModal')">Sign Up</a>
+      </p>
+    </form>
+  </div>
+</div>
+
+<!-- Signup Modal -->
+<div id="signupModal" class="modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('signupModal')">✕</button>
+    <div class="modal-header">
+      <h2>Sign Up</h2>
+    </div>
+    <form onsubmit="handleSignup(event)">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" required>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" required>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" required>
+      </div>
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <input type="password" required>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" required> Saya setuju dengan Terms & Conditions</label>
+      </div>
+      <button class="btn btn-secondary" style="width: 100%;">Create Account</button>
+      <p style="text-align: center; margin-top: 16px; color: #bbb;">
+        Sudah punya akun? <a href="#" style="color: var(--primary);" onclick="switchModal('signupModal', 'loginModal')">Login</a>
+      </p>
+    </form>
+  </div>
+</div>
+
+<!-- Pricing Modal -->
+<div id="pricingModal" class="modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('pricingModal')">✕</button>
+    <div class="modal-header">
+      <h2>Pricing Plans</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div style="border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 12px; padding: 16px; text-align: center;">
+        <h3>Free</h3>
+        <div class="stat-value">$0</div>
+        <ul class="features-list" style="text-align: left; margin: 16px 0;">
+          <li>5 images/month</li>
+          <li>Basic filters</li>
+          <li>Standard upscale</li>
+        </ul>
+        <button class="btn" style="width: 100%;">Get Started</button>
+      </div>
+      <div style="border: 2px solid var(--primary); border-radius: 12px; padding: 16px; text-align: center; background: rgba(124, 58, 237, 0.1);">
+        <h3>Pro</h3>
+        <div class="stat-value">$9.99<span style="font-size: 0.4em;">/mo</span></div>
+        <ul class="features-list" style="text-align: left; margin: 16px 0;">
+          <li>Unlimited images</li>
+          <li>All filters & tools</li>
+          <li>8× upscale</li>
+          <li>Batch processing</li>
+        </ul>
+        <button class="btn btn-secondary" style="width: 100%;">Subscribe Now</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Feature Details Modal -->
+<div id="featureModal" class="modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('featureModal')">✕</button>
+    <div class="modal-header">
+      <h2 id="featureTitle">Feature Details</h2>
+    </div>
+    <div id="featureContent"></div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2024 AI Photo Studio Pro. Semua fitur dilindungi dengan enkripsi end-to-end.</p>
+  <p>
+    <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Contact Us</a>
+  </p>
+</footer>
+
+<script>
+// State Management
+let appState = {
+  images: [],
+  currentImage: null,
+  filterApplied: 'none',
+  adjustmentValue: 100,
+  rotation: 0
+};
+
+// Gallery Management
+function handleFileUpload(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const imageData = {
+        id: Date.now(),
+        src: e.target.result,
+        name: file.name,
+        size: file.size,
+        date: new Date().toLocaleDateString(),
+        favorite: false
+      };
+      appState.images.push(imageData);
+      updateGallery();
+      showNotification(`Image "${file.name}" uploaded successfully!`, 'success');
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function updateGallery() {
+  const gallery = document.getElementById('galleryContainer');
+  if (appState.images.length === 0) {
+    gallery.innerHTML = '<p style="text-align: center; color: #999; grid-column: 1 / -1;">Belum ada gambar. Upload gambar terlebih dahulu!</p>';
+    return;
+  }
+  gallery.innerHTML = appState.images.map(img => `
+    <div class="gallery-item">
+      <img src="${img.src}" alt="${img.name}">
+      <div class="gallery-item-actions">
+        <button onclick="editImage(${img.id})">Edit</button>
+        <button onclick="deleteImage(${img.id})">Delete</button>
+        <button onclick="toggleFavorite(${img.id})">${img.favorite ? '★' : '☆'}</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function editImage(id) {
+  const image = appState.images.find(img => img.id === id);
+  if (image) {
+    appState.currentImage = id;
+    document.getElementById('editorImage').src = image.src;
+    showSection('editor');
+  }
+}
+
+function deleteImage(id) {
+  if (confirm('Delete this image?')) {
+    appState.images = appState.images.filter(img => img.id !== id);
+    updateGallery();
+    showNotification('Image deleted', 'success');
+  }
+}
+
+function toggleFavorite(id) {
+  const image = appState.images.find(img => img.id === id);
+  if (image) {
+    image.favorite = !image.favorite;
+    updateGallery();
+  }
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// Editor Functions
+function applyFilter(filter) {
+  appState.filterApplied = filter;
+  const image = document.getElementById('editorImage');
+  let effect = '';
+  
+  switch(filter) {
+    case 'brightness': effect = `brightness(${appState.adjustmentValue}%)`; break;
+    case 'contrast': effect = `contrast(${appState.adjustmentValue}%)`; break;
+    case 'saturation': effect = `saturate(${appState.adjustmentValue}%)`; break;
+    case 'grayscale': effect = `grayscale(${(200 - appState.adjustmentValue) / 2}%)`; break;
+    case 'sepia': effect = `sepia(${(200 - appState.adjustmentValue) / 2}%)`; break;
+    case 'blur': effect = `blur(${(200 - appState.adjustmentValue) / 20}px)`; break;
+  }
+  
+  image.style.filter = effect;
+  image.style.transform = `rotate(${appState.rotation}deg)`;
+}
+
+function updateAdjustment() {
+  const slider = document.getElementById('adjustSlider');
+  appState.adjustmentValue = slider.value;
+  const label = document.getElementById('sliderLabel');
+  label.textContent = `${appState.filterApplied}: ${slider.value}%`;
+  applyFilter(appState.filterApplied);
+}
+
+function rotateImage(angle) {
+  appState.rotation += angle;
+  const image = document.getElementById('editorImage');
+  image.style.transform = `rotate(${appState.rotation}deg)`;
+}
+
+function resetEditor() {
+  document.getElementById('filterSelect').value = 'none';
+  document.getElementById('adjustSlider').value = 100;
+  appState.filterApplied = 'none';
+  appState.adjustmentValue = 100;
+  appState.rotation = 0;
+  const image = document.getElementById('editorImage');
+  image.style.filter = 'none';
+  image.style.transform = 'rotate(0deg)';
+}
+
+function downloadImage() {
+  const image = document.getElementById('editorImage');
+  const link = document.createElement('a');
+  link.href = image.src;
+  link.download = `edited-${Date.now()}.png`;
+  link.click();
+  showNotification('Image downloaded successfully!', 'success');
+}
+
+// Dashboard Functions
+function updateDashboard() {
+  document.getElementById('totalImages').textContent = appState.images.length;
+  document.getElementById('totalTime').textContent = Math.floor(Math.random() * 10) + 'h';
+  
+  // Activity Chart
+  const activityChart = document.getElementById('activityChart');
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  activityChart.innerHTML = days.map(day => `
+    <div class="chart-bar">
+      <div class="bar" style="height: ${Math.random() * 80 + 20}px;"></div>
+      <div class="bar-label">${day}</div>
+    </div>
+  `).join('');
+  
+  // Feature Chart
+  const featureChart = document.getElementById('featureChart');
+  const features = ['Upscale', 'Remove', 'Enhance', 'BG', 'Batch'];
+  featureChart.innerHTML = features.map(feature => `
+    <div class="chart-bar">
+      <div class="bar" style="height: ${Math.random() * 80 + 20}px;"></div>
+      <div class="bar-label">${feature}</div>
+    </div>
+  `).join('');
+}
+
+// Modal Management
+function showModal(modalId, data) {
+  document.getElementById(modalId).classList.add('active');
+  
+  if (modalId === 'featureModal') {
+    const features = {
+      'object-remover': {
+        title: '🧹 AI Object Remover',
+        content: '<p>Remove unwanted objects with precision. Features include smart brush, real-time preview, and unlimited undo/redo.</p><button class="btn btn-secondary" style="width: 100%; margin-top: 16px;">Start Removing</button>'
+      },
+      'upscaler': {
+        title: '🔍 AI Upscaler',
+        content: '<p>Upscale images up to 8x with AI denoise. Perfect for old photos or low resolution images.</p><button class="btn btn-secondary" style="width: 100%; margin-top: 16px;">Upscale Now</button>'
+      },
+      'face-enhance': {
+        title: '👤 Face Enhance',
+        content: '<p>Restore and enhance faces with advanced AI algorithms. Sharpen details and improve clarity.</p><button class="btn btn-secondary" style="width: 100%; margin-top: 16px;">Enhance Faces</button>'
+      },
+      'background': {
+        title: '🎨 Background Studio',
+        content: '<p>Remove or replace backgrounds seamlessly. Choose from 500+ backgrounds or upload your own.</p><button class="btn btn-secondary" style="width: 100%; margin-top: 16px;">Change Background</button>'
+      },
+      'costume-swap': {
+        title: '👗 Costume Swap',
+        content: '<p>Transform outfits and costumes with realistic results using deep learning technology.</p><button class="btn btn-secondary" style="width: 100%; margin-top: 16px;">Try Costume Swap</button>'
+      },
+      'prompt-gen': {
+        title: '✨ Prompt Generator',
+        content: '<p>Generate optimal AI prompts for creating realistic characters and content.</p><button class="btn btn-secondary" style="width: 100%; margin-top: 16px;">Generate Prompts</button>'
+      },
+      'video': {
+        title: '🎬 Video Enhancement',
+        content: '<p>Enhance videos with frame interpolation and motion blur reduction. Export in multiple formats.</p><button class="btn btn-secondary" style="width: 100%; margin-top: 16px;">Enhance Video</button>'
+      },
+      'batch': {
+        title: '🤖 Batch Processor',
+        content: '<p>Process hundreds of images at once. Schedule batch jobs and monitor progress in real-time.</p><button class="btn btn-secondary" style="width: 100%; margin-top: 16px;">Start Batch</button>'
+      },
+      'analytics': {
+        title: '📊 Advanced Analytics',
+        content: '<p>Track usage, quality metrics, and get optimization suggestions. Export detailed reports.</p><button class="btn btn-secondary" style="width: 100%; margin-top: 16px;">View Analytics</button>'
+      }
+    };
+    
+    const feature = features[data];
+    document.getElementById('featureTitle').textContent = feature.title;
+    document.getElementById('featureContent').innerHTML = feature.content;
+  }
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).classList.remove('active');
+}
+
+function switchModal(from, to) {
+  closeModal(from);
+  showModal(to);
+}
+
+// Form Handlers
+function handleLogin(event) {
+  event.preventDefault();
+  showNotification('Login successful!', 'success');
+  closeModal('loginModal');
+}
+
+function handleSignup(event) {
+  event.preventDefault();
+  showNotification('Account created successfully!', 'success');
+  closeModal('signupModal');
+}
+
+// Section Management
+function showSection(section) {
+  // Hide all sections
+  document.getElementById('editorSection').classList.remove('active');
+  document.getElementById('dashboardSection').classList.remove('active');
+  document.getElementById('hero').style.display = 'block';
+  document.querySelector('.grid').style.display = 'grid';
+  document.querySelector('.upload-section').style.display = 'block';
+  document.querySelector('.gallery-section').style.display = 'block';
+  document.querySelector('.cta-section').style.display = 'block';
+  
+  if (section === 'editor') {
+    document.getElementById('editorSection').classList.add('active');
+    document.getElementById('hero').style.display = 'none';
+    document.querySelector('.grid').style.display = 'none';
+    document.querySelector('.upload-section').style.display = 'none';
+    document.querySelector('.gallery-section').style.display = 'none';
+    document.querySelector('.cta-section').style.display = 'none';
+  } else if (section === 'dashboard') {
+    document.getElementById('dashboardSection').classList.add('active');
+    document.getElementById('hero').style.display = 'none';
+    document.querySelector('.grid').style.display = 'none';
+    document.querySelector('.upload-section').style.display = 'none';
+    document.querySelector('.gallery-section').style.display = 'none';
+    document.querySelector('.cta-section').style.display = 'none';
+    updateDashboard();
+  }
+}
+
+function scrollToSection(section) {
+  showSection(section === 'hero' ? 'home' : section);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Notifications
+function showNotification(message, type = 'info') {
+  const notification = document.createElement('div');
+  notification.className = `notification ${type}`;
+  notification.textContent = message;
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
+}
+
+// Upload Box Drag & Drop
+const uploadBox = document.getElementById('uploadBox');
+uploadBox.addEventListener('click', () => document.getElementById('fileInput').click());
+uploadBox.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  uploadBox.style.borderColor = 'var(--primary)';
+  uploadBox.style.background = 'rgba(124, 58, 237, 0.1)';
+});
+uploadBox.addEventListener('dragleave', () => {
+  uploadBox.style.borderColor = 'rgba(124, 58, 237, 0.5)';
+  uploadBox.style.background = '';
+});
+uploadBox.addEventListener('drop', (e) => {
+  e.preventDefault();
+  uploadBox.style.borderColor = 'rgba(124, 58, 237, 0.5)';
+  uploadBox.style.background = '';
+  document.getElementById('fileInput').files = e.dataTransfer.files;
+  handleFileUpload({ target: { files: e.dataTransfer.files } });
+});
+
+// Close modals on outside click
+document.querySelectorAll('.modal').forEach(modal => {
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+    }
+  });
+});
+
+// Smooth scroll for internal links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const href = this.getAttribute('href');
+    if (href !== '#') {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  });
+});
+
+// Add scroll animations
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.card').forEach(card => {
+  observer.observe(card);
+});
+
+// Add fade in animation
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+document.head.appendChild(style);
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('AI Photo Studio Pro loaded successfully!');
+});
+</script>
+</body>
+</html>

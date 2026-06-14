@@ -1,0 +1,34 @@
+{
+  "name": "ai-photo-studio-pro",
+  "version": "1.0.0",
+  "description": "Advanced AI Photo Editing Studio with Real-time Processing",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "npx http-server",
+    "build": "echo \"Nothing to build\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saboy3594-pixel/AI-Photo-Studio-Pro.git"
+  },
+  "keywords": [
+    "photo-editing",
+    "ai",
+    "image-processing",
+    "upscale",
+    "enhancement",
+    "web-app",
+    "studio"
+  ],
+  "author": "saboy3594-pixel",
+  "license": "MIT",
+  "homepage": "https://github.com/saboy3594-pixel/AI-Photo-Studio-Pro#readme",
+  "engines": {
+    "node": ">=12.0.0",
+    "npm": ">=6.0.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
